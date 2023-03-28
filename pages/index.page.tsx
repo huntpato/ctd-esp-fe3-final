@@ -10,7 +10,6 @@ const Index: NextPage = () => {
                 <meta name="description" content="Marvel comic store"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-
             <BodySingle title={"Sample"}>
             </BodySingle>
         </>
