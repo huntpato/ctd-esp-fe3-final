@@ -10,6 +10,22 @@ interface IThumbnail{
     path: string
 }
 
+export interface IComicResponse {
+    code: number | string;
+    status: string;
+    copyright: string;
+    attributionText: string;
+    attributionHTML: string;
+    etag: string;
+    data: {
+      offset: number;
+      limit: number;
+      total: number;
+      count: number;
+      results: IComic[];
+    };
+  }
+
 export interface IComic{
     id: number,
     digitalId: number,

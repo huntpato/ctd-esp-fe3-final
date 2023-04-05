@@ -5,29 +5,35 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
+import Link from 'next/link';
 
 interface IComicCardProps {
     title: string,
-    image: string
+    image: string,
+    id: number
 }
 
-const ComicCard: FC<IComicCardProps> = ({ title, image }) => {
+const ComicCard: FC<IComicCardProps> = ({ title, image, id }) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        sx={{ height: 350 }}
-        image={image}
-        alt={title}
-      />
+    <Card variant='outlined' >
+        <CardMedia
+          component="img"
+          height= "194"
+          image={image}
+          alt={title}
+          sx={{objectFit: "contain"}}
+        />
       <CardContent>
-        <Typography gutterBottom variant="h6" component="div">
+        <Typography gutterBottom variant="body2" component="div">
           {title}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small" variant="contained">COMPRAR</Button>
-        <Button size="small" variant="outlined">VER MÁS</Button>
+        <Link href={`/comics/${id}`}>
+          <Button size="small" variant="outlined">VER DETALLE</Button>
+        </Link>
       </CardActions>
     </Card>
   )
