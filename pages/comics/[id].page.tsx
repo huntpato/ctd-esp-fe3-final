@@ -4,7 +4,9 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { getComic, getComics } from 'dh-marvel/services/marvel/marvel.service'
 import { IComic, IComicResponse } from 'types/IComic.type'
 import BodySingle from 'dh-marvel/components/layouts/body/single/body-single'
-import { Grid, Paper, CardMedia, CardContent, Typography, Button } from "@mui/material";
+import ComicCardDetail from 'dh-marvel/components/ComicCardDetail/ComicCardDetail'
+import ComicDetailAccordion from 'dh-marvel/components/ComicDetailAccordion/ComicDetailAccordion'
+import { Grid, CardMedia } from "@mui/material";
 
 interface ComicProps{
     comic: IComic
@@ -19,34 +21,16 @@ const Comic : NextPage<ComicProps> = ({ comic }) => {
             <link rel="icon" href="/favicon.ico"/>
         </Head>
         <BodySingle title={comic.title}>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={4} sx={{backgroundColor: "yellow"}}>
+            <Grid container spacing={2} sx={{maxWidth: "600px", margin: "0 auto"}}>
+                <Grid item xs={12} md={4} >
                   <CardMedia component="img" height= "350" image={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} alt={comic.title} sx={{objectFit: "contain"}}/>
                 </Grid>
-                <Grid item xs={12} md={8} sx={{backgroundColor: "red"}}>
-                  <Paper elevation={1}>
-                    <CardContent>
-                      <Typography variant="h5">{comic.title}</Typography>
-                      <Typography variant="body1">Antes $87</Typography>
-                      <Typography variant="subtitle1">$72</Typography>
-                      <Button size="medium" variant="contained" type="button">COMPRAR</Button>
-                    </CardContent>
-                  </Paper>
+                <Grid item xs={12} md={8} sx={{alignSelf: "center"}}>
+                  <ComicCardDetail comic={comic}></ComicCardDetail>
                 </Grid>
             </Grid>
-            <Grid container spacing={2} sx={{backgroundColor: "yellow"}}>
-              {/* <Accordion key={faq.id}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`panel${faq.id}a-content`}
-                id={`panel${faq.id}a-header`}
-              >
-                <Typography>{faq.question}</Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: '#000', color: '#fff' }}>
-                <Typography>{faq.answer}</Typography>
-              </AccordionDetails>
-            </Accordion> */}
+            <Grid container spacing={2} sx={{maxWidth: "600px", margin: "0 auto"}}>
+              <ComicDetailAccordion comic={comic}></ComicDetailAccordion>
             </Grid>
         </BodySingle>
     </>
@@ -78,18 +62,3 @@ export const getStaticPaths: GetStaticPaths = async()=>{
 }
 
 export default Comic
-
-// ### Página 2: Detalle del Cómic (Comic)
-
-// * La página deberá indicar al menos la siguiente información:
-//   * Nombre del comic
-//   * Descripción del comic
-//   * Imagen principal
-//   * Precio
-//   * Precio anterior
-//   * Botón de compra: en función de la disponibilidad de stock
-//     * Si hay stock, el botón debe aparecer habilitado y ser funcional
-//     * Si no hay stock, el botón debe estar deshabilitado y en gris, con el mensaje: Sin stock disponible 
-//   * Lista de personajes asociados al cómic, con links a la página de cada personaje
-// * Permitir que el contenido sea indexable por los buscadores.
-// * Esta página debera utilizar el [Layout General](#layout-general)

@@ -1,11 +1,26 @@
-interface ISummary{
+interface IItem {
+  resourceURI: string;
+  name: string;
+  type?: "cover" | "interiorStory" | "promo" | string;
+  role?:
+    | "editor"
+    | "writer"
+    | "penciller"
+    | "penciller (cover)"
+    | "colorist"
+    | "inker"
+    | "penciller (cover) "
+    | "letterer"
+    | string;
+}
+export interface ISummary{
     available: number,
     collectionURI: string,
-    items: [],
+    items: IItem[] | [],
     returned: number,
 }
 
-interface IThumbnail{
+export interface IThumbnail{
     extension: string,
     path: string
 }
@@ -36,7 +51,10 @@ export interface IComic{
     issueNumber: number,
     modified: string,
     pageCount: number,
+    oldPrice: number,
+    price: number,
     prices: [],
+    stock: number,
     resourceURI: string,
     series: {},
     upc: string,
