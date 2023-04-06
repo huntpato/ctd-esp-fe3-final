@@ -3,6 +3,7 @@ import { IComic } from 'types/IComic.type';
 import { Paper, Accordion, AccordionSummary, Typography, AccordionDetails, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
+import { getIdfromURI } from 'utils/getId';
 
 interface ComicDAprops {
   comic: IComic;
@@ -39,7 +40,7 @@ const ComicDetailAccordion: FC<ComicDAprops> = ({ comic }) => {
           {comic.characters.items.length ? (
             comic.characters.items.map((character) => {
               return (
-                <Link href="/">
+                <Link href={`/characters/${getIdfromURI(character.resourceURI)}`}>
                   <Button size="small" variant="text">
                     {character.name}
                   </Button>
