@@ -40,7 +40,7 @@ const ComicDetailAccordion: FC<ComicDAprops> = ({ comic }) => {
           {comic.characters.items.length ? (
             comic.characters.items.map((character) => {
               return (
-                <Link href={`/characters/${getIdfromURI(character.resourceURI)}`}>
+                <Link href={`/personajes/${getIdfromURI(character.resourceURI)}`} key={character.name}>
                   <Button size="small" variant="text">
                     {character.name}
                   </Button>
