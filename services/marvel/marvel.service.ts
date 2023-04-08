@@ -34,12 +34,12 @@ export const getComic = async (comicId: number) => {
     } else return null;
 }
 
-export const getCharacters = async (offset?: number, limit?: number) => {
-    const params = new URLSearchParams();
-    if (offset) params.set("offset", `${offset}`);
-    if (limit) params.set("limit", `${limit}`);
-    return fetchApi("characters", params.toString());
-  };
+// export const getCharacters = async (offset?: number, limit?: number) => {
+//     const params = new URLSearchParams();
+//     if (offset) params.set("offset", `${offset}`);
+//     if (limit) params.set("limit", `${limit}`);
+//     return fetchApi("characters", params.toString());
+//   };
 
 export const getCharacter = async (characterId: number) => {
     const data = await fetchApi(`characters/${characterId}`);

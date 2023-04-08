@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { IComic } from 'types/IComic.type';
 import { Paper, CardContent, Typography, Button } from '@mui/material';
+import Link from 'next/link';
 
 interface ComicCardDetailProps {
   comic: IComic;
@@ -16,9 +17,11 @@ const ComicCardDetail: FC<ComicCardDetailProps> = ({ comic }) => {
         )}
         <Typography gutterBottom variant="h6">${comic.price}</Typography>
         {comic.stock > 0 ? (
-          <Button size="medium" variant="contained" type="button">
-            COMPRAR
-          </Button>
+          <Link href={{ pathname: "/checkout/", query: `comic=${comic.id}` }}>
+            <Button size="medium" variant="contained" type="button">
+              COMPRAR
+            </Button>
+          </Link>
         ) : (
           <Button size="medium" variant="contained" type="button" disabled>
             COMPRAR
