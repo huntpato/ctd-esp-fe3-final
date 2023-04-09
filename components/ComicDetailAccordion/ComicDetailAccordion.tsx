@@ -3,7 +3,7 @@ import { IComic } from 'types/IComic.type';
 import { Paper, Accordion, AccordionSummary, Typography, AccordionDetails, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
-import { getIdfromURI } from 'utils/getId';
+import { getIdfromURI } from '../../utils/getId';
 
 interface ComicDAprops {
   comic: IComic;

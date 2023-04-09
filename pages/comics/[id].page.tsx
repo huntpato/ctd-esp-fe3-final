@@ -13,7 +13,7 @@ interface ComicProps{
 }
 
 const Comic : NextPage<ComicProps> = ({ comic }) => {
-    
+    console.log(comic)
   return (
     <>
         <Head>

@@ -9,7 +9,8 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BodySingle from 'dh-marvel/components/layouts/body/single/body-single';
-import { faqsData, FaqsType } from 'dh-marvel/components/faqs/faqsData';
+import { FaqsType, faqsData } from '../constants/faqs/faqsData';
+
 
 const Faqs: NextPage = () => {
   return (

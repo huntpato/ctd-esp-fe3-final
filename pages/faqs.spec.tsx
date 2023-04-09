@@ -12,13 +12,9 @@ describe('FaqsPage', () => {
     it('should render the questions', () => {
       render(<Faqs />);
       const questionOne = screen.getByText('¿Cuántos comics tienen?');
-      const questionTwo = screen.getByText(
-        '¿Se puede reservar nuevos lanzamientos?'
-      );
+      const questionTwo = screen.getByText('¿Se puede reservar nuevos lanzamientos?');
       const questionThree = screen.getByText('¿Cuanto demoran las entregas?');
-      const questionFour = screen.getByText(
-        '¿Qué métodos de pago están disponibles?'
-      );
+      const questionFour = screen.getByText('¿Qué métodos de pago están disponibles?');
       const questionFive = screen.getByText('¿Se aceptan devoluciones?');
 
       expect(questionOne).toBeInTheDocument();
