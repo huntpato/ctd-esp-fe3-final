@@ -39,10 +39,6 @@ const ControlledInput: FC<ControlledInputProps> = ({ name, label, defaultValue, 
   return (
     <Box
       mb={2}
-      sx={{
-        position: 'relative',
-        paddingY: '5px',
-      }}
     >
       <TextField
         onChange={onChange}

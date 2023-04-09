@@ -11,7 +11,7 @@ type StepperNavigationProps = {
 
 const StepperNavigation: FC<StepperNavigationProps> = ({ activeStep, handleNext, handleBack,}: StepperNavigationProps) => {
   return (
-    <Box>
+    <Box sx={{ marginBottom: "15px" }}>
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Button
           color="inherit"
@@ -34,7 +34,7 @@ const StepperNavigation: FC<StepperNavigationProps> = ({ activeStep, handleNext,
             SIGUIENTE
           </Button>
         ) : (
-          <Button onClick={handleNext} sx={{ mr: 1 }} variant="text">
+          <Button onClick={handleNext} sx={{ mr: 1 }} variant="contained">
             FINALIZAR
           </Button>
         )}

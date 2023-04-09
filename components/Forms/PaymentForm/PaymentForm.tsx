@@ -58,7 +58,7 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, handleBack 
 
   return (
     <Box id="PaymentForm">
-      <Box paddingBottom={5}>
+      <Box paddingBottom={3}>
         <Cards
           cvc={payment.cvc}
           expiry={payment.expDate}
@@ -66,7 +66,6 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, handleBack 
           number={payment.number}
         />
       </Box>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormProvider {...methods}>
           <ControlledInput
@@ -82,7 +81,7 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, handleBack 
           <Stack direction="row" spacing={5}>
             <ControlledInput
               name="expDate"
-              label="Exp MM/YY"
+              label="Exp MMYY"
               regex={regexNum}
               maxLength={4}
             />

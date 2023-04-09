@@ -1,6 +1,13 @@
 import { FC } from 'react';
 import { IComic } from 'types/IComic.type';
-import { Paper, CardContent, Typography, Card, CardMedia, Skeleton} from '@mui/material';
+import {
+  Paper,
+  CardContent,
+  Typography,
+  Card,
+  CardMedia,
+  Skeleton,
+} from '@mui/material';
 
 type CardCheckoutProps = {
   comic: IComic | undefined;
@@ -8,7 +15,7 @@ type CardCheckoutProps = {
 
 const CardCheckout: FC<CardCheckoutProps> = ({ comic }) => {
   return (
-    <Paper elevation={1} sx={{ padding: '3px' }}>
+    <Paper elevation={1}>
       <Card>
         {!comic ? (
           <Skeleton

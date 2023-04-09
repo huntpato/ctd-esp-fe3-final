@@ -118,7 +118,7 @@ const StepperForm: FC<StepperForm> = ({ comic }) => {
           })
         );
         router.push({
-          pathname: '/success',
+          pathname: '/confirmacion-compra',
         });
       }
     });
@@ -129,11 +129,10 @@ const StepperForm: FC<StepperForm> = ({ comic }) => {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box>
       <Stepper
         alternativeLabel
         activeStep={activeStep}
-        sx={{ paddingBottom: '50px' }}
       >
         {steps.map((label, index) => (
           <Step key={label}>
@@ -146,7 +145,7 @@ const StepperForm: FC<StepperForm> = ({ comic }) => {
       <Box>
         <Typography
           sx={{
-            paddingBottom: '30px',
+            paddingBottom: '10px',
           }}
           variant="h5"
         >
