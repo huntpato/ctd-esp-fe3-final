@@ -1,11 +1,9 @@
-// const comicWithoutStock =
-//     {
-//         id: 10
-//     }
+export const comicWithoutStock =
+    {
+        id: 10
+    }
 
-// export default comicWithoutStock;
-
-const comicWithoutStock = {
+const comicWithoutStockMock = {
   id: 82970,
   digitalId: 52952,
   title: 'Marvel Previews (2017)',
@@ -173,4 +171,4 @@ const comicWithoutStock = {
   },
 };
 
-export default comicWithoutStock;
+export default comicWithoutStockMock;

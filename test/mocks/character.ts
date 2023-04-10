@@ -1,9 +1,7 @@
-// const character =
-//     {
-//         id: 1
-//     }
-
-// export default character;
+export const character =
+    {
+        id: 1
+    }
 
 const characterMock = {
   id: 1010908,

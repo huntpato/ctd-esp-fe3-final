@@ -8,6 +8,9 @@ export const errorMesages = {
     state: {
       required: "La provincia es requerida.",
     },
+    city: {
+      required: "La ciudad es requerida.",
+    },
     zipCode: {
       required: "El código postal es requerido.",
     },

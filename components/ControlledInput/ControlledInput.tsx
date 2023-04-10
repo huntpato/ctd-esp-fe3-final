@@ -1,8 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import { Box, IconButton, TextField } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Box, TextField } from '@mui/material';
 
 interface ControlledInputProps {
   name: string;
@@ -16,7 +14,6 @@ interface ControlledInputProps {
 const ControlledInput: FC<ControlledInputProps> = ({ name, label, defaultValue, maxLength, regex, type = 'text' }: ControlledInputProps) => {
 
   const { control } = useFormContext();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const { field: { onChange, value, ref }, formState: { errors } } = useController<Record<string, string>>({
     name: name,
@@ -32,10 +29,6 @@ const ControlledInput: FC<ControlledInputProps> = ({ name, label, defaultValue, 
     }
   };
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <Box
       mb={2}
@@ -46,25 +39,12 @@ const ControlledInput: FC<ControlledInputProps> = ({ name, label, defaultValue, 
         label={label}
         name={name}
         inputRef={ref}
-        type={showPassword ? 'text' : type}
+        type={type}
         inputProps={{ maxLength: maxLength }}
         fullWidth
         error={!!errors[name]}
         helperText={`${errors[name]?.message || ''}`}
       />
-      {type === 'password' && (
-        <IconButton
-          aria-label="toggle password visibility"
-          onClick={handleClickShowPassword}
-          sx={{
-            position: 'absolute',
-            right: '8px',
-            top: '10px',
-          }}
-        >
-          {showPassword ? <Visibility /> : <VisibilityOff />}
-        </IconButton>
-      )}
     </Box>
   );
 };

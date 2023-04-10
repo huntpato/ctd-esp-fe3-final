@@ -5,17 +5,17 @@ const paymentSchema = yup
   .object({
     number: yup
       .string()
-      .min(16, errorMesages.number.min)
-      .required(errorMesages.number.required),
+      .required(errorMesages.number.required)
+      .min(16, errorMesages.number.min),
     nameOnCard: yup.string().required(errorMesages.nameOnCard.required),
     expDate: yup
       .string()
-      .min(4, errorMesages.expDate.min)
-      .required(errorMesages.expDate.required),
+      .required(errorMesages.expDate.required)
+      .min(4, errorMesages.expDate.min),
     cvc: yup
       .string()
-      .min(3, errorMesages.cvc.min)
-      .required(errorMesages.cvc.required),
+      .required(errorMesages.cvc.required)
+      .min(3, errorMesages.cvc.min),
   })
   .required(errorMesages.form.required);
 

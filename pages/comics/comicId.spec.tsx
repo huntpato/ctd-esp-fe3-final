@@ -2,7 +2,7 @@ import {render, screen} from "@testing-library/react";
 import { IComic } from "types/IComic.type";
 import Comic from "./[id].page";
 import comicMock from "dh-marvel/test/mocks/comic";
-import comicWithoutStock from "dh-marvel/test/mocks/comicWithoutStock";
+import comicWithoutStockMock from "dh-marvel/test/mocks/comicWithoutStock";
 
 describe('ComicPage', () => {
     describe('when rendering', () => {
@@ -25,7 +25,7 @@ describe('ComicPage', () => {
     })
     describe('when rendering a comic that has no stock', () => {
         it('should render a disabled COMPRAR button', async() => {
-            render(<Comic comic={comicWithoutStock as unknown as IComic}/>)
+            render(<Comic comic={comicWithoutStockMock as unknown as IComic}/>)
             const button = screen.getAllByRole('button')[0];
             expect(button).toHaveAttribute('disabled')
         });

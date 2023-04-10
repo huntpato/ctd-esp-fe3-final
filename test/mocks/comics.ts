@@ -1,10 +1,10 @@
-// const comics = [
-//   {
-//     id: 1,
-//   },
-// ];
+const comics = [
+  {
+    id: 1,
+  },
+];
 
-// export default comics;
+export default comics;
 
 export const comicsMock = {
   code: 200,

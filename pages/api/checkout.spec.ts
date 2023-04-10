@@ -17,7 +17,7 @@ import {
 
 describe('Checkout', () => {
     describe('when sending a valid POST, customer and card data', () => {
-        it('should return a 400 error', async () => {
+        it('should return status 200', async () => {
             const order = {customer: {address: {}}, card: {number: validCard}} as CheckoutInput
             const {req, res} = createMocks({
                 method: 'POST',

@@ -1,9 +1,7 @@
-// const comic =
-//     {
-//         id: 1
-//     }
-
-// export default comic;
+export const comic =
+    {
+        id: 1
+    }
 
 const comicMock = {
   id: 82967,
