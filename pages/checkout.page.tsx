@@ -26,7 +26,7 @@ const Checkout: NextPage = () => {
 
   return (
     <BodySingle title={`Checkout: ${comicData?.title}`}>
-      <Grid container spacing={2} sx={{marginTop: "10px"}}>
+      <Grid container spacing={2} sx={{ marginTop: '10px' }}>
         <Grid item xs={12} md={8}>
           <StepperForm comic={comicData} />
         </Grid>

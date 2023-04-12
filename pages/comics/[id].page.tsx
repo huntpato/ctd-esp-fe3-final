@@ -40,12 +40,13 @@ const Comic : NextPage<ComicProps> = ({ comic }) => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) =>{
     const id = parseInt(params?.id as string);
-    const comic  = await getComic(id)
+    const data  = await getComic(id)
 
     return{
         props:{
-            comic
-        }
+            comic: data
+        },
+        revalidate: 10,
     }
 }
 
@@ -58,8 +59,8 @@ export const getStaticPaths: GetStaticPaths = async()=>{
 
     return{
         paths,
-        fallback: false,
+        fallback: true,
     }
 }
 
-export default Comic
+export default Comic;
