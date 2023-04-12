@@ -45,8 +45,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) =>{
     return{
         props:{
             comic: data
-        },
-        revalidate: 10,
+        }
     }
 }
 
@@ -59,7 +58,7 @@ export const getStaticPaths: GetStaticPaths = async()=>{
 
     return{
         paths,
-        fallback: true,
+        fallback: false,
     }
 }
 
