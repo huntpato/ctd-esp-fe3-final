@@ -2,7 +2,8 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Checkout from "./checkout.page";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-import { NextRouter, useRouter } from "next/router";
+import { NextRouter } from "next/router";
+
 
 const createMockRouter = (router: Partial<NextRouter>): NextRouter => {
   return {
@@ -47,3 +48,4 @@ describe("ComicIDPage", () => {
     });
   });
 });
+
