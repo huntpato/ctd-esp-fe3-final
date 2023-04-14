@@ -32,62 +32,172 @@ describe('StepperForm', () => {
     it('should render steps', () => {
       render(
         <Wrapper>
-          <StepperForm comic={comicMock as unknown as IComic}/>
+          <StepperForm comic={comicMock as unknown as IComic} />
         </Wrapper>
       );
 
-      const steps = ['Datos Personales', 'Dirección de entrega', 'Datos del pago'];
+      const steps = [
+        'Datos Personales',
+        'Dirección de entrega',
+        'Datos del pago',
+      ];
 
-      const stepperOne = screen.getByText("Datos Personales");
-      const stepperTwo = screen.getByText("Dirección de entrega");
-      const stepperThree = screen.getByText("Datos del pago");
+      const stepperOne = screen.getByText('Datos Personales');
+      const stepperTwo = screen.getByText('Dirección de entrega');
+      const stepperThree = screen.getByText('Datos del pago');
 
       expect(stepperOne).toBeInTheDocument();
       expect(stepperTwo).toBeInTheDocument();
       expect(stepperThree).toBeInTheDocument();
     });
-  });
-  describe('when puttin wrong information', () => {
-    it('should render error alert without funds', async() => {
+    it('should go next and go back', async () => {
       render(
         <Wrapper>
-          <StepperForm comic={comicMock as unknown as IComic}/>
+          <StepperForm comic={comicMock as unknown as IComic} />
+        </Wrapper>
+      );
+
+      //STEP 1 & NEXT
+      const nextButton = screen.getByRole('button', { name: /SIGUIENTE/i });
+      const textFieldName = screen.getByRole('textbox', { name: 'Nombre' });
+      const textFieldLastname = screen.getByRole('textbox', {
+        name: 'Apellido',
+      });
+      const textFieldEmail = screen.getByRole('textbox', { name: 'Email' });
+
+      await userEvent.type(textFieldName, 'Test');
+      await userEvent.type(textFieldLastname, 'User');
+      await userEvent.type(textFieldEmail, 'test@user.com');
+      await userEvent.click(nextButton);
+
+      //STEP 2 % GO BACK
+      expect(await screen.findByText('Paso 2')).toBeInTheDocument();
+      const backButton = screen.getByRole('button', { name: /ANTERIOR/i });
+
+      await userEvent.click(backButton);
+      expect(await screen.findByText('Paso 1')).toBeInTheDocument();
+    });
+    it('should go to confirmacion-compra page', async () => {
+      render(
+        <Wrapper>
+          <StepperForm comic={comicMock as unknown as IComic} />
         </Wrapper>
       );
 
       //STEP 1
       const nextButton = screen.getByRole('button', { name: /SIGUIENTE/i });
       const textFieldName = screen.getByRole('textbox', { name: 'Nombre' });
-      const textFieldLastname = screen.getByRole('textbox', { name: 'Apellido' });
+      const textFieldLastname = screen.getByRole('textbox', {
+        name: 'Apellido',
+      });
       const textFieldEmail = screen.getByRole('textbox', { name: 'Email' });
-    
+
       await userEvent.type(textFieldName, 'Test');
       await userEvent.type(textFieldLastname, 'User');
       await userEvent.type(textFieldEmail, 'test@user.com');
-      await userEvent.click(nextButton)
+      await userEvent.click(nextButton);
 
       //STEP 2
       expect(await screen.findByText('Paso 2')).toBeInTheDocument();
 
       const nextButtonTwo = screen.getByRole('button', { name: /SIGUIENTE/i });
-      const textFieldAddress1 = screen.getByRole('textbox', { name: 'Dirección' });
-      const textFieldAddress2 = screen.getByRole('textbox', { name: 'Dirección alternativa' });
+      const textFieldAddress1 = screen.getByRole('textbox', {
+        name: 'Dirección',
+      });
+      const textFieldAddress2 = screen.getByRole('textbox', {
+        name: 'Dirección alternativa',
+      });
       const textFieldCity = screen.getByRole('textbox', { name: 'Ciudad' });
       const textFieldState = screen.getByRole('textbox', { name: 'Provincia' });
-      const textFieldZip = screen.getByRole('textbox', { name: 'Código postal' });
+      const textFieldZip = screen.getByRole('textbox', {
+        name: 'Código postal',
+      });
 
       await userEvent.type(textFieldAddress1, 'Siempre Viva 123');
       await userEvent.type(textFieldAddress2, 'address2');
       await userEvent.type(textFieldCity, 'Buenos Aires');
       await userEvent.type(textFieldState, 'BA');
       await userEvent.type(textFieldZip, '1417');
-      await userEvent.click(nextButtonTwo)
+      await userEvent.click(nextButtonTwo);
 
       //STEP 3
       expect(await screen.findByText('Paso 3')).toBeInTheDocument();
       const nextButtonEnd = screen.getByRole('button', { name: /FINALIZAR/i });
-      const textFieldCard = screen.getByRole('textbox', { name: 'Número de tarjeta' });
-      const textFieldNameCard = screen.getByRole('textbox', { name: 'Nombre como aparece en la tarjeta' });
+      const textFieldCard = screen.getByRole('textbox', {
+        name: 'Número de tarjeta',
+      });
+      const textFieldNameCard = screen.getByRole('textbox', {
+        name: 'Nombre como aparece en la tarjeta',
+      });
+      const textFieldExp = screen.getByRole('textbox', { name: 'Exp MMYY' });
+      const textFieldCvc = screen.getByLabelText('CVC');
+
+      await userEvent.type(textFieldCard, '4242424242424242');
+      await userEvent.type(textFieldNameCard, 'Test User');
+      await userEvent.type(textFieldExp, '0228');
+      await userEvent.type(textFieldCvc, '123');
+      await userEvent.click(nextButtonEnd);
+
+      waitFor(async () => {
+        expect(await mockPush).toHaveBeenCalledWith({
+          pathname: '/confirmacion-compra',
+        });
+      });
+    }, 20000);
+  });
+  describe('when puttin wrong information', () => {
+    it('should render error alert without funds', async () => {
+      render(
+        <Wrapper>
+          <StepperForm comic={comicMock as unknown as IComic} />
+        </Wrapper>
+      );
+
+      //STEP 1
+      const nextButton = screen.getByRole('button', { name: /SIGUIENTE/i });
+      const textFieldName = screen.getByRole('textbox', { name: 'Nombre' });
+      const textFieldLastname = screen.getByRole('textbox', {
+        name: 'Apellido',
+      });
+      const textFieldEmail = screen.getByRole('textbox', { name: 'Email' });
+
+      await userEvent.type(textFieldName, 'Test');
+      await userEvent.type(textFieldLastname, 'User');
+      await userEvent.type(textFieldEmail, 'test@user.com');
+      await userEvent.click(nextButton);
+
+      //STEP 2
+      expect(await screen.findByText('Paso 2')).toBeInTheDocument();
+
+      const nextButtonTwo = screen.getByRole('button', { name: /SIGUIENTE/i });
+      const textFieldAddress1 = screen.getByRole('textbox', {
+        name: 'Dirección',
+      });
+      const textFieldAddress2 = screen.getByRole('textbox', {
+        name: 'Dirección alternativa',
+      });
+      const textFieldCity = screen.getByRole('textbox', { name: 'Ciudad' });
+      const textFieldState = screen.getByRole('textbox', { name: 'Provincia' });
+      const textFieldZip = screen.getByRole('textbox', {
+        name: 'Código postal',
+      });
+
+      await userEvent.type(textFieldAddress1, 'Siempre Viva 123');
+      await userEvent.type(textFieldAddress2, 'address2');
+      await userEvent.type(textFieldCity, 'Buenos Aires');
+      await userEvent.type(textFieldState, 'BA');
+      await userEvent.type(textFieldZip, '1417');
+      await userEvent.click(nextButtonTwo);
+
+      //STEP 3
+      expect(await screen.findByText('Paso 3')).toBeInTheDocument();
+      const nextButtonEnd = screen.getByRole('button', { name: /FINALIZAR/i });
+      const textFieldCard = screen.getByRole('textbox', {
+        name: 'Número de tarjeta',
+      });
+      const textFieldNameCard = screen.getByRole('textbox', {
+        name: 'Nombre como aparece en la tarjeta',
+      });
       const textFieldExp = screen.getByRole('textbox', { name: 'Exp MMYY' });
       const textFieldCvc = screen.getByLabelText('CVC');
 
@@ -98,49 +208,62 @@ describe('StepperForm', () => {
       await userEvent.click(nextButtonEnd);
 
       //error without funds
-      expect(await screen.findByText('Tarjeta sin fondos disponibles')).toBeInTheDocument();
-
-    },20000);
-    it('should render error alert without Authorization Card', async() => {
+      expect(
+        await screen.findByText('Tarjeta sin fondos disponibles')
+      ).toBeInTheDocument();
+    }, 20000);
+    it('should render error alert without Authorization Card', async () => {
       render(
         <Wrapper>
-          <StepperForm comic={comicMock as unknown as IComic}/>
+          <StepperForm comic={comicMock as unknown as IComic} />
         </Wrapper>
       );
 
       //STEP 1
       const nextButton = screen.getByRole('button', { name: /SIGUIENTE/i });
       const textFieldName = screen.getByRole('textbox', { name: 'Nombre' });
-      const textFieldLastname = screen.getByRole('textbox', { name: 'Apellido' });
+      const textFieldLastname = screen.getByRole('textbox', {
+        name: 'Apellido',
+      });
       const textFieldEmail = screen.getByRole('textbox', { name: 'Email' });
-    
+
       await userEvent.type(textFieldName, 'Test');
       await userEvent.type(textFieldLastname, 'User');
       await userEvent.type(textFieldEmail, 'test@user.com');
-      await userEvent.click(nextButton)
+      await userEvent.click(nextButton);
 
       //STEP 2
       expect(await screen.findByText('Paso 2')).toBeInTheDocument();
 
       const nextButtonTwo = screen.getByRole('button', { name: /SIGUIENTE/i });
-      const textFieldAddress1 = screen.getByRole('textbox', { name: 'Dirección' });
-      const textFieldAddress2 = screen.getByRole('textbox', { name: 'Dirección alternativa' });
+      const textFieldAddress1 = screen.getByRole('textbox', {
+        name: 'Dirección',
+      });
+      const textFieldAddress2 = screen.getByRole('textbox', {
+        name: 'Dirección alternativa',
+      });
       const textFieldCity = screen.getByRole('textbox', { name: 'Ciudad' });
       const textFieldState = screen.getByRole('textbox', { name: 'Provincia' });
-      const textFieldZip = screen.getByRole('textbox', { name: 'Código postal' });
+      const textFieldZip = screen.getByRole('textbox', {
+        name: 'Código postal',
+      });
 
       await userEvent.type(textFieldAddress1, 'Siempre Viva 123');
       await userEvent.type(textFieldAddress2, 'address2');
       await userEvent.type(textFieldCity, 'Buenos Aires');
       await userEvent.type(textFieldState, 'BA');
       await userEvent.type(textFieldZip, '1417');
-      await userEvent.click(nextButtonTwo)
+      await userEvent.click(nextButtonTwo);
 
       //STEP 3
       expect(await screen.findByText('Paso 3')).toBeInTheDocument();
       const nextButtonEnd = screen.getByRole('button', { name: /FINALIZAR/i });
-      const textFieldCard = screen.getByRole('textbox', { name: 'Número de tarjeta' });
-      const textFieldNameCard = screen.getByRole('textbox', { name: 'Nombre como aparece en la tarjeta' });
+      const textFieldCard = screen.getByRole('textbox', {
+        name: 'Número de tarjeta',
+      });
+      const textFieldNameCard = screen.getByRole('textbox', {
+        name: 'Nombre como aparece en la tarjeta',
+      });
       const textFieldExp = screen.getByRole('textbox', { name: 'Exp MMYY' });
       const textFieldCvc = screen.getByLabelText('CVC');
 
@@ -151,49 +274,64 @@ describe('StepperForm', () => {
       await userEvent.click(nextButtonEnd);
 
       //error without authorization
-      expect(await screen.findByText("Tarjeta sin autorización. Comuníquese con su banco e intente nuevamente.")).toBeInTheDocument()
-
-    },20000);
-    it('should render error alert Card data incorrect', async() => {
+      expect(
+        await screen.findByText(
+          'Tarjeta sin autorización. Comuníquese con su banco e intente nuevamente.'
+        )
+      ).toBeInTheDocument();
+    }, 20000);
+    it('should render error alert Card data incorrect', async () => {
       render(
         <Wrapper>
-          <StepperForm comic={comicMock as unknown as IComic}/>
+          <StepperForm comic={comicMock as unknown as IComic} />
         </Wrapper>
       );
 
       //STEP 1
       const nextButton = screen.getByRole('button', { name: /SIGUIENTE/i });
       const textFieldName = screen.getByRole('textbox', { name: 'Nombre' });
-      const textFieldLastname = screen.getByRole('textbox', { name: 'Apellido' });
+      const textFieldLastname = screen.getByRole('textbox', {
+        name: 'Apellido',
+      });
       const textFieldEmail = screen.getByRole('textbox', { name: 'Email' });
-    
+
       await userEvent.type(textFieldName, 'Test');
       await userEvent.type(textFieldLastname, 'User');
       await userEvent.type(textFieldEmail, 'test@user.com');
-      await userEvent.click(nextButton)
+      await userEvent.click(nextButton);
 
       //STEP 2
       expect(await screen.findByText('Paso 2')).toBeInTheDocument();
 
       const nextButtonTwo = screen.getByRole('button', { name: /SIGUIENTE/i });
-      const textFieldAddress1 = screen.getByRole('textbox', { name: 'Dirección' });
-      const textFieldAddress2 = screen.getByRole('textbox', { name: 'Dirección alternativa' });
+      const textFieldAddress1 = screen.getByRole('textbox', {
+        name: 'Dirección',
+      });
+      const textFieldAddress2 = screen.getByRole('textbox', {
+        name: 'Dirección alternativa',
+      });
       const textFieldCity = screen.getByRole('textbox', { name: 'Ciudad' });
       const textFieldState = screen.getByRole('textbox', { name: 'Provincia' });
-      const textFieldZip = screen.getByRole('textbox', { name: 'Código postal' });
+      const textFieldZip = screen.getByRole('textbox', {
+        name: 'Código postal',
+      });
 
       await userEvent.type(textFieldAddress1, 'Siempre Viva 123');
       await userEvent.type(textFieldAddress2, 'address2');
       await userEvent.type(textFieldCity, 'Buenos Aires');
       await userEvent.type(textFieldState, 'BA');
       await userEvent.type(textFieldZip, '1417');
-      await userEvent.click(nextButtonTwo)
+      await userEvent.click(nextButtonTwo);
 
       //STEP 3
       expect(await screen.findByText('Paso 3')).toBeInTheDocument();
       const nextButtonEnd = screen.getByRole('button', { name: /FINALIZAR/i });
-      const textFieldCard = screen.getByRole('textbox', { name: 'Número de tarjeta' });
-      const textFieldNameCard = screen.getByRole('textbox', { name: 'Nombre como aparece en la tarjeta' });
+      const textFieldCard = screen.getByRole('textbox', {
+        name: 'Número de tarjeta',
+      });
+      const textFieldNameCard = screen.getByRole('textbox', {
+        name: 'Nombre como aparece en la tarjeta',
+      });
       const textFieldExp = screen.getByRole('textbox', { name: 'Exp MMYY' });
       const textFieldCvc = screen.getByLabelText('CVC');
 
@@ -204,9 +342,9 @@ describe('StepperForm', () => {
       await userEvent.click(nextButtonEnd);
 
       //error wrong card numbers
-      expect(await screen.findByText("Datos de tarjeta incorrecta")).toBeInTheDocument()
-
-    },20000);
-  })
-  
+      expect(
+        await screen.findByText('Datos de tarjeta incorrecta')
+      ).toBeInTheDocument();
+    }, 20000);
+  });
 });
