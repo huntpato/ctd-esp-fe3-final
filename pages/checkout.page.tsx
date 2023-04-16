@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { IComic } from 'types/IComic.type';
 import { getComicsById } from 'dh-marvel/services/comic/comic.service';
 import BodySingle from 'dh-marvel/components/layouts/body/single/body-single';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import CardCheckout from 'dh-marvel/components/CardCheckout/CardCheckout';
 import StepperForm from 'dh-marvel/components/Forms/StepperForm';
 import LayoutCheckout from 'dh-marvel/components/layouts/layout-checkout';
@@ -21,18 +21,26 @@ const Checkout: NextPage = () => {
       getComicsById(id).then((data) => {
         setComicData(data);
       });
+    } else{
+      router.push('/');
     }
   }, [comic]);
 
   return (
-    <BodySingle title={`Checkout: ${comicData?.title}`}>
+    <BodySingle title={ comicData && `Checkout: ${comicData?.title}`}>
       <Grid container spacing={2} sx={{ marginTop: '10px' }}>
-        <Grid item xs={12} md={8}>
-          <StepperForm comic={comicData} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <CardCheckout comic={comicData} />
-        </Grid>
+        {comicData ? (
+          <>
+            <Grid item xs={12} md={8}>
+              <StepperForm comic={comicData} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CardCheckout comic={comicData} />
+            </Grid>
+          </>
+        ):(
+          <Typography variant="body2" sx={{margin: "0 auto"}}>Redirigiendo...</Typography>
+        )}
       </Grid>
     </BodySingle>
   );

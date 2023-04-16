@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Faqs from './faqs.page';
+import Faqs from './preguntas-frecuentes.page';
 import { FaqsType, faqsData } from '../constants/faqs/faqsData';
 
 

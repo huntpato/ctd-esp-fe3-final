@@ -346,5 +346,80 @@ describe('StepperForm', () => {
         await screen.findByText('Datos de tarjeta incorrecta')
       ).toBeInTheDocument();
     }, 20000);
+    it('should change the open state, open and close diferent alerts', async () => {
+      render(
+        <Wrapper>
+          <StepperForm comic={comicMock as unknown as IComic} />
+        </Wrapper>
+      );
+
+      //STEP 1
+      const nextButton = screen.getByRole('button', { name: /SIGUIENTE/i });
+      const textFieldName = screen.getByRole('textbox', { name: 'Nombre' });
+      const textFieldLastname = screen.getByRole('textbox', {
+        name: 'Apellido',
+      });
+      const textFieldEmail = screen.getByRole('textbox', { name: 'Email' });
+
+      await userEvent.type(textFieldName, 'Test');
+      await userEvent.type(textFieldLastname, 'User');
+      await userEvent.type(textFieldEmail, 'test@user.com');
+      await userEvent.click(nextButton);
+
+      //STEP 2
+      expect(await screen.findByText('Paso 2')).toBeInTheDocument();
+
+      const nextButtonTwo = screen.getByRole('button', { name: /SIGUIENTE/i });
+      const textFieldAddress1 = screen.getByRole('textbox', {
+        name: 'Dirección',
+      });
+      const textFieldAddress2 = screen.getByRole('textbox', {
+        name: 'Dirección alternativa',
+      });
+      const textFieldCity = screen.getByRole('textbox', { name: 'Ciudad' });
+      const textFieldState = screen.getByRole('textbox', { name: 'Provincia' });
+      const textFieldZip = screen.getByRole('textbox', {
+        name: 'Código postal',
+      });
+
+      await userEvent.type(textFieldAddress1, 'Siempre Viva 123');
+      await userEvent.type(textFieldAddress2, 'address2');
+      await userEvent.type(textFieldCity, 'Buenos Aires');
+      await userEvent.type(textFieldState, 'BA');
+      await userEvent.type(textFieldZip, '1417');
+      await userEvent.click(nextButtonTwo);
+
+      //STEP 3
+      expect(await screen.findByText('Paso 3')).toBeInTheDocument();
+      const nextButtonEnd = screen.getByRole('button', { name: /FINALIZAR/i });
+      const textFieldCard = screen.getByRole('textbox', {
+        name: 'Número de tarjeta',
+      });
+      const textFieldNameCard = screen.getByRole('textbox', {
+        name: 'Nombre como aparece en la tarjeta',
+      });
+      const textFieldExp = screen.getByRole('textbox', { name: 'Exp MMYY' });
+      const textFieldCvc = screen.getByLabelText('CVC');
+
+      await userEvent.type(textFieldCard, '4242424242424243');
+      await userEvent.type(textFieldNameCard, 'Test User');
+      await userEvent.type(textFieldExp, '0228');
+      await userEvent.type(textFieldCvc, '123');
+      await userEvent.click(nextButtonEnd);
+
+      //error wrong card numbers
+      expect(
+        await screen.findByText('Datos de tarjeta incorrecta')
+      ).toBeInTheDocument();
+
+      await userEvent.clear(textFieldCard)
+      await userEvent.type(textFieldCard, '4111411141114111');
+      await userEvent.click(nextButtonEnd);
+
+      expect(
+        await screen.findByText('Tarjeta sin fondos disponibles')
+      ).toBeInTheDocument();
+ 
+    }, 20000);
   });
 });

@@ -6,7 +6,15 @@ import { IComic } from 'types/IComic.type';
 import CustomerDataForm from './CustomerForm/CustomerForm';
 import DeliveryForm from './DeliveryForm/DeliveryForm';
 import PaymentForm from './PaymentForm/PaymentForm';
-import { Box, Typography, Stepper, Step, StepButton, Alert } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Stepper,
+  Step,
+  StepButton,
+  Alert,
+  Snackbar, 
+} from '@mui/material';
 import catchError from './handleCheckoutErros';
 
 const steps = ['Datos Personales', 'Dirección de entrega', 'Datos del pago'];
@@ -16,7 +24,6 @@ type StepperForm = {
 };
 
 const StepperForm: FC<StepperForm> = ({ comic }) => {
-
   const defaultValue = {
     customer: {
       name: '',
@@ -47,6 +54,7 @@ const StepperForm: FC<StepperForm> = ({ comic }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [checkoutData, setCheckoutData] = useState<ICheckout>(defaultValue);
   const [error, setError] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(true);
 
   const handleStep = (step: number) => () => {
     setActiveStep(step);
@@ -122,18 +130,29 @@ const StepperForm: FC<StepperForm> = ({ comic }) => {
         });
       }
     });
+
+    if (error) {
+      setOpen(true);
+    }
   };
 
   const handleBack = () => {
     activeStep > 0 && setActiveStep(activeStep - 1);
   };
 
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   return (
     <Box>
-      <Stepper
-        alternativeLabel
-        activeStep={activeStep}
-      >
+      <Stepper alternativeLabel activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label}>
             <StepButton color="inherit" onClick={handleStep(index)}>
@@ -175,14 +194,15 @@ const StepperForm: FC<StepperForm> = ({ comic }) => {
         )}
       </Box>
       {error !== '' && (
-        <Alert
-          severity="error"
-          sx={{
-            marginTop: '30px',
-          }}
-        >
-          {error}
-        </Alert>
+        <>
+          <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+            <Alert
+              severity="error"
+            >
+              {error}
+            </Alert>
+          </Snackbar>
+        </>
       )}
     </Box>
   );
