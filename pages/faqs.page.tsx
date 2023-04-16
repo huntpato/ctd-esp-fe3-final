@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import {
   Accordion,
   AccordionSummary,
@@ -11,8 +11,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BodySingle from 'dh-marvel/components/layouts/body/single/body-single';
 import { FaqsType, faqsData } from '../constants/faqs/faqsData';
 
+interface FaqsProps {
+  faqsData: FaqsType[];
+}
 
-const Faqs: NextPage = () => {
+const Faqs: NextPage<FaqsProps> = ({ faqsData }) => {
   return (
     <>
       <Head>
@@ -38,6 +41,14 @@ const Faqs: NextPage = () => {
       </BodySingle>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {
+      faqsData,
+    },
+  };
 };
 
 export default Faqs;
