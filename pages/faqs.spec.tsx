@@ -1,16 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Faqs from './faqs.page';
+import { FaqsType, faqsData } from '../constants/faqs/faqsData';
+
 
 describe('FaqsPage', () => {
   describe('when rendering page', () => {
     it('should render the title', () => {
-      render(<Faqs />);
+      render(<Faqs faqsData={faqsData as FaqsType[]} />);
       const title = screen.getByText('Preguntas Frecuentes');
       expect(title).toBeInTheDocument();
     });
     it('should render the questions', () => {
-      render(<Faqs />);
+      render(<Faqs faqsData={faqsData as FaqsType[]}/>);
       const questionOne = screen.getByText('¿Cuántos comics tienen?');
       const questionTwo = screen.getByText('¿Se puede reservar nuevos lanzamientos?');
       const questionThree = screen.getByText('¿Cuanto demoran las entregas?');
@@ -26,7 +28,7 @@ describe('FaqsPage', () => {
   });
   describe('when clicking on a question', () => {
     it('should render the answer', async () => {
-      render(<Faqs />);
+      render(<Faqs faqsData={faqsData as FaqsType[]}/>);
       const questionThree = screen.getByText('¿Cuanto demoran las entregas?');
       expect(questionThree).toBeEnabled();
 
