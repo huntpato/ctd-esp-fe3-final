@@ -3,6 +3,15 @@ import { IComic } from "types/IComic.type";
 import Comic from "./[id].page";
 import comicMock from "dh-marvel/test/mocks/comic";
 import comicWithoutStockMock from "dh-marvel/test/mocks/comicWithoutStock";
+import { useRouter } from "next/router";
+
+const mockPush = jest.fn();
+jest.mock("next/router", () => ({
+  useRouter: jest.fn(),
+}));
+(useRouter as jest.Mock).mockImplementation(() => ({
+  push: mockPush,
+}));
 
 describe('ComicPage', () => {
     describe('when rendering', () => {
