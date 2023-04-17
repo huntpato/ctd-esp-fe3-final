@@ -6,13 +6,19 @@ import { IComic, IComicResponse } from 'types/IComic.type'
 import BodySingle from 'dh-marvel/components/layouts/body/single/body-single'
 import ComicCardDetail from 'dh-marvel/components/ComicCardDetail/ComicCardDetail'
 import ComicDetailAccordion from 'dh-marvel/components/ComicDetailAccordion/ComicDetailAccordion'
-import { Grid, CardMedia } from "@mui/material";
+import { Grid, CardMedia, Typography } from "@mui/material";
+import { useRouter } from 'next/router'
 
 interface ComicProps{
     comic: IComic
 }
 
 const Comic : NextPage<ComicProps> = ({ comic }) => {
+    const router = useRouter();
+
+    if(router.isFallback === true){
+        return <Typography>Loading Comic...</Typography>
+    }
     
   return (
     <>
@@ -45,7 +51,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) =>{
     return{
         props:{
             comic: data
-        }
+        },
+        revalidate: 10,
     }
 }
 
@@ -58,7 +65,7 @@ export const getStaticPaths: GetStaticPaths = async()=>{
 
     return{
         paths,
-        fallback: false,
+        fallback: true,
     }
 }
 
